@@ -1,19 +1,59 @@
+import { Menu } from 'lucide-react'
 import { FaLinkedin } from 'react-icons/fa'
 import { SiGithub, SiGoogle } from 'react-icons/si'
+import { Link } from 'react-router-dom'
 import heroImage from '../assets/img1.jpg'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 
 function NavBar() {
   return (
     <nav className="flex items-center justify-between px-6 py-4">
-      <span className="text-lg font-semibold text-[var(--text-h)]">hh.</span>
-      <div className="flex items-center gap-3">
-        <button className="rounded-full border border-[var(--border)] px-5 py-2 text-sm font-medium text-[var(--text-h)] hover:bg-black/5">
+      <Link to="/" className="text-lg font-semibold text-(--text-h)">
+        hh.
+      </Link>
+
+      <div className="hidden items-center gap-3 sm:flex">
+        <Link
+          to="/login"
+          className="rounded-full border border-(--border) px-5 py-2 text-sm font-medium text-(--text-h) hover:bg-black/5"
+        >
           Log in
-        </button>
-        <button className="rounded-full bg-black px-5 py-2 text-sm font-medium text-white hover:bg-black/80">
+        </Link>
+        <Link
+          to="/signup"
+          className="rounded-full bg-black px-5 py-2 text-sm font-medium text-white hover:bg-black/80"
+        >
           Sign up
-        </button>
+        </Link>
       </div>
+
+      <DropdownMenu>
+        <DropdownMenuTrigger
+          className="flex size-9 items-center justify-center rounded-full hover:bg-black/5 sm:hidden"
+          aria-label="Open menu"
+        >
+          <Menu className="size-5 text-(--text-h)" />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-(--anchor-width) min-w-56 p-2">
+          <DropdownMenuItem
+            render={<Link to="/login" />}
+            className="justify-center rounded-full border border-(--border) py-2.5 text-sm font-medium text-(--text-h)"
+          >
+            Log in
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            render={<Link to="/signup" />}
+            className="mt-2 justify-center rounded-full bg-black py-2.5 text-sm font-medium text-white focus:bg-black/80 focus:text-white"
+          >
+            Sign up
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </nav>
   )
 }
@@ -33,7 +73,7 @@ function HeroSection() {
         </p>
       </div>
 
-      <div className="grid grid-cols-[1.3fr_1fr] gap-5">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-[1.3fr_1fr]">
         <img
           src={heroImage}
           alt="Thompson P. with a cat"
@@ -86,9 +126,9 @@ function Footer() {
           <SiGoogle size={14} />
         </a>
       </div>
-      <a href="#" className="underline underline-offset-2">
+      <Link to="/" className="underline underline-offset-2">
         Home page
-      </a>
+      </Link>
     </footer>
   )
 }
