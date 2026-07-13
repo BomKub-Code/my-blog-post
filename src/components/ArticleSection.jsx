@@ -7,6 +7,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import BlogCard from '@/components/BlogCard'
+import { blogPosts } from '@/data/blogPosts'
 
 const tabs = ['Highlight', 'Cat', 'Inspiration', 'General']
 
@@ -71,6 +73,20 @@ function ArticleSection() {
             </Select>
           </div>
         </div>
+      </div>
+
+      <div className="mt-10 grid grid-cols-1 gap-10 md:grid-cols-2">
+        {blogPosts.map((post) => (
+          <BlogCard
+            key={post.id}
+            image={post.image}
+            category={post.category}
+            title={post.title}
+            description={post.description}
+            author={post.author}
+            date={post.date}
+          />
+        ))}
       </div>
     </section>
   )
