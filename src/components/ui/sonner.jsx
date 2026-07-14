@@ -2,6 +2,9 @@ import { useTheme } from "next-themes"
 import { Toaster as Sonner } from "sonner";
 import { CircleCheckIcon, InfoIcon, TriangleAlertIcon, OctagonXIcon, Loader2Icon } from "lucide-react"
 
+// ครอบ <Toaster> จาก "sonner" ให้ผูก theme (light/dark) จาก next-themes อัตโนมัติ
+// และกำหนดไอคอน/สีให้เข้ากับดีไซน์ของโปรเจกต์ mount ไว้ครั้งเดียวใน App.jsx
+// แล้วเรียก toast(...) จากที่ไหนก็ได้ในแอป (ดูตัวอย่างที่ handleCopyLink ใน ViewPostPage)
 const Toaster = ({
   ...props
 }) => {

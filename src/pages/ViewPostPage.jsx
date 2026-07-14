@@ -28,7 +28,10 @@ function ViewPostPage() {
   const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false)
   const [isCopied, setIsCopied] = useState(false)
 
+  // ดึงข้อมูลโพสต์ตาม postId จาก URL ทุกครั้งที่ postId เปลี่ยน
   useEffect(() => {
+    // flag กันปัญหา race condition: ถ้า postId เปลี่ยนเร็วๆ (เช่นกดลิงก์โพสต์อื่นก่อน
+    // request เก่าจะเสร็จ) request เก่าที่ยัง resolve อยู่จะถูกเพิกเฉยไม่ setState ทับของใหม่
     let ignore = false
 
     setIsLoading(true)
@@ -52,12 +55,14 @@ function ViewPostPage() {
     }
   }, [postId])
 
+  // ปุ่ม like/comment ต้อง login ก่อน — ถ้ายังไม่ login ให้เปิด dialog ชวนสมัคร/เข้าสู่ระบบแทน
   function requireLogin() {
     if (isLoggedIn) return true
     setIsLoginDialogOpen(true)
     return false
   }
 
+  // คัดลอกลิงก์หน้าปัจจุบันไปยัง clipboard แล้วโชว์สถานะ "Copied!" ชั่วคราว 2 วินาที
   async function handleCopyLink() {
     await navigator.clipboard.writeText(window.location.href)
     setIsCopied(true)
@@ -81,7 +86,9 @@ function ViewPostPage() {
     })
   }
 
+  // เช็ค typeof window เผื่อโค้ดนี้ถูกรันฝั่ง server (SSR) ที่ไม่มี window object
   const shareUrl = typeof window !== 'undefined' ? window.location.href : ''
+  // สร้างลิงก์แชร์ไปแต่ละแพลตฟอร์มจาก URL ของโพสต์ปัจจุบัน (encode กันอักขระพิเศษพัง URL)
   const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`
   const linkedInShareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`
   const twitterShareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(post?.title ?? '')}`
@@ -210,6 +217,7 @@ function ViewPostPage() {
 
       <Footer />
 
+      {/* Dialog ที่โผล่มาเมื่อกด like/comment โดยยังไม่ login (ดู requireLogin ด้านบน) */}
       <AlertDialog open={isLoginDialogOpen} onOpenChange={setIsLoginDialogOpen}>
         <AlertDialogContent>
           <AlertDialogCancel

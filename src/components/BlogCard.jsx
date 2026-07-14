@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 
+// การ์ดแสดงโพสต์จริงจาก API (ใช้ใน ArticleSection) รูปและหัวข้อคลิกได้เพื่อไปหน้ารายละเอียด
 function BlogCard({ id, image, category, title, description, author, date }) {
   return (
     <div className="flex flex-col gap-4">

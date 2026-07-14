@@ -16,6 +16,8 @@ import { formatDate } from '@/lib/utils'
 const categories = ['Highlight', 'Cat', 'Inspiration', 'General']
 const LIMIT = 6
 
+// Section หลักของหน้าแรก: filter หมวดหมู่ + infinite "view more" + ช่องค้นหาแบบ dropdown
+// รวม state 3 กลุ่ม: (1) รายการโพสต์+pagination (2) การค้นหา (3) ref ไว้ปิด dropdown เมื่อคลิกนอกกล่อง
 function ArticleSection() {
   const [category, setCategory] = useState('Highlight')
   const [posts, setPosts] = useState([])
@@ -30,6 +32,8 @@ function ArticleSection() {
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const searchBoxRef = useRef(null)
 
+  // โหลดโพสต์หน้าแรกใหม่ทุกครั้งที่เปลี่ยนหมวดหมู่ (รีเซ็ต page กลับเป็น 1)
+  // "Highlight" หมายถึง "ทั้งหมด" จึงไม่ส่ง category ไปกับ query params
   useEffect(() => {
     let ignore = false
 
@@ -63,6 +67,7 @@ function ArticleSection() {
     }
   }, [category])
 
+  // ปุ่ม "View more": โหลดหน้าถัดไปแล้วต่อท้ายรายการเดิม (ไม่ล้าง posts เดิมทิ้งเหมือน useEffect ด้านบน)
   function handleLoadMore() {
     const nextPage = page + 1
 
@@ -90,6 +95,8 @@ function ArticleSection() {
       })
   }
 
+  // ค้นหาแบบ debounce: รอ 350ms หลังหยุดพิมพ์ค่อยยิง request กันเรียก API รัวๆ ทุกตัวอักษร
+  // ถ้าเคลียร์ช่องค้นหาจนว่างจะปิด dropdown ทันทีโดยไม่ต้องรอ debounce
   useEffect(() => {
     const trimmedKeyword = keyword.trim()
 
@@ -118,12 +125,15 @@ function ArticleSection() {
         })
     }, 350)
 
+    // cleanup ทำ 2 อย่าง: ยกเลิก timeout ถ้ายังไม่ทันยิง (debounce จริงๆ)
+    // และตั้ง ignore ไว้กันผล request เก่ามาทับผลของคำค้นล่าสุด
     return () => {
       ignore = true
       clearTimeout(timeoutId)
     }
   }, [keyword])
 
+  // ปิด dropdown ผลการค้นหาเมื่อคลิกที่ใดก็ตามนอกกล่องค้นหา (searchBoxRef ครอบทั้ง input+dropdown)
   useEffect(() => {
     function handleClickOutside(event) {
       if (searchBoxRef.current && !searchBoxRef.current.contains(event.target)) {
@@ -135,6 +145,7 @@ function ArticleSection() {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
+  // dropdown แสดงผลลัพธ์ค้นหา ใช้ซ้ำทั้ง layout จอกว้างและจอเล็ก
   function renderSearchResults() {
     return (
       <div className="absolute top-full z-20 mt-2 w-full overflow-hidden rounded-xl bg-(--bg) text-left shadow-lg ring-1 ring-(--border)">

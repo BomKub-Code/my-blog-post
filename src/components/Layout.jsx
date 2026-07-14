@@ -10,6 +10,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 
+// แถบเมนูบนสุด: โชว์ปุ่ม Log in / Sign up แบบเต็มบนจอกว้าง (sm ขึ้นไป)
+// ส่วนจอเล็กจะซ่อนปุ่มแล้วใช้ dropdown menu (ไอคอน Menu) แทนเพื่อประหยัดพื้นที่
 function NavBar() {
   return (
     <nav className="flex items-center justify-between px-6 py-4">
@@ -58,6 +60,7 @@ function NavBar() {
   )
 }
 
+// ส่วน hero ด้านบนของหน้าแรก เป็น static content (ข้อความ+รูป) ล้วนๆ ไม่มี state
 function HeroSection() {
   return (
     <section className="mx-6 mb-10 grid gap-8 rounded-3xl border border-(--border) p-8 lg:grid-cols-2 lg:gap-12 lg:p-10">
@@ -99,6 +102,7 @@ function HeroSection() {
   )
 }
 
+// ท้ายหน้า: ลิงก์ social (ยังไม่ผูก URL จริง เป็น href="#") กับลิงก์กลับหน้าแรก
 function Footer() {
   return (
     <footer className="mt-auto flex items-center justify-between border-t border-[var(--border)] px-6 py-6 text-sm text-[var(--text-h)]">

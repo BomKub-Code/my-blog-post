@@ -6,6 +6,8 @@ import FormField from '@/components/FormField'
 import { formInputClass } from '@/lib/utils'
 import { emailExists, registerUser } from '@/lib/fakeAuth'
 
+// ตรวจฟอร์มสมัครสมาชิกแบบ client-side ทั้งหมด คืน object ของ error รายฟิลด์
+// (key ไหนไม่มี error จะไม่ถูกใส่ลงมาใน object เลย)
 function validate(values) {
   const errors = {}
 
@@ -34,6 +36,7 @@ function SignUpPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
 
+  // สร้าง onChange handler แยกตามชื่อฟิลด์ อัปเดตเฉพาะ key นั้นใน values โดยคง field อื่นไว้
   function handleChange(field) {
     return (event) => {
       setValues((prev) => ({ ...prev, [field]: event.target.value }))
@@ -43,10 +46,12 @@ function SignUpPage() {
   function handleSubmit(event) {
     event.preventDefault()
 
+    // validate ก่อน ถ้ามี error ตัวไหนเลยให้หยุดและโชว์ error ใต้ฟิลด์นั้นๆ
     const nextErrors = validate(values)
     setErrors(nextErrors)
     if (Object.keys(nextErrors).length > 0) return
 
+    // เช็ค email ซ้ำแยกจาก validate() เพราะต้องเช็คกับข้อมูลที่เก็บไว้ (localStorage) ไม่ใช่แค่ format
     if (emailExists(values.email)) {
       setErrors({ email: 'This email is already in use.' })
       return
@@ -62,6 +67,7 @@ function SignUpPage() {
     }, 600)
   }
 
+  // หลังสมัครสำเร็จ สลับไปแสดงหน้าจอ "Registration success!" แทนฟอร์ม (ไม่ใช้ routing แยกหน้า)
   if (isSuccess) {
     return (
       <>

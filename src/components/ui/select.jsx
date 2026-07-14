@@ -4,6 +4,9 @@ import { Select as SelectPrimitive } from "@base-ui/react/select"
 import { cn } from "@/lib/utils"
 import { ChevronDownIcon, CheckIcon, ChevronUpIcon } from "lucide-react"
 
+// UI primitive (สไตล์ shadcn) ครอบ @base-ui/react/select แยกเป็นชิ้นย่อยประกอบกัน:
+// Select (root) > SelectTrigger+SelectValue (ปุ่มที่คลิก) > SelectContent > SelectItem (ตัวเลือก)
+// ใช้จริงใน ArticleSection สำหรับเลือกหมวดหมู่บนจอมือถือ
 const Select = SelectPrimitive.Root
 
 function SelectGroup({

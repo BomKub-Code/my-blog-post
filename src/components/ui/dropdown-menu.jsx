@@ -4,6 +4,9 @@ import { Menu as MenuPrimitive } from "@base-ui/react/menu"
 import { cn } from "@/lib/utils"
 import { ChevronRightIcon, CheckIcon } from "lucide-react"
 
+// UI primitive (สไตล์ shadcn) ครอบ @base-ui/react/menu ใช้จริงแค่ส่วน trigger/content/item
+// (DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem ใน Layout.jsx
+// สำหรับเมนูมือถือ) ส่วนที่เหลือ (sub menu, checkbox/radio item ฯลฯ) เตรียมไว้เผื่อใช้ในอนาคต
 function DropdownMenu({
   ...props
 }) {

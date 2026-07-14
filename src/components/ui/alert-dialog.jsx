@@ -4,6 +4,8 @@ import { AlertDialog as AlertDialogPrimitive } from "@base-ui/react/alert-dialog
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 
+// UI primitive (สไตล์ shadcn) ครอบ @base-ui/react/alert-dialog
+// ใช้จริงใน ViewPostPage เป็น dialog ชวนสมัคร/เข้าสู่ระบบเมื่อกด like/comment โดยยังไม่ login
 function AlertDialog({
   ...props
 }) {

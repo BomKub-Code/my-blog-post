@@ -5,6 +5,7 @@ import FormField from '@/components/FormField'
 import { formInputClass } from '@/lib/utils'
 import { verifyCredentials } from '@/lib/fakeAuth'
 
+// ตรวจแค่ว่ากรอกครบหรือไม่ (ไม่เช็ค format) เพราะความถูกต้องจริงๆ ไปเช็คตอน verifyCredentials
 function validate(values) {
   const errors = {}
 
@@ -39,6 +40,7 @@ function LogInPage() {
     setTimeout(() => {
       const result = verifyCredentials(values.email, values.password)
 
+      // แสดง error ให้ตรงฟิลด์ตามสาเหตุที่ verifyCredentials ส่งกลับมา
       if (!result.success) {
         setIsSubmitting(false)
         if (result.reason === 'not_found') {
@@ -49,6 +51,7 @@ function LogInPage() {
         return
       }
 
+      // login สำเร็จ -> กลับไปหน้าแรก
       setIsSubmitting(false)
       navigate('/')
     }, 600)
