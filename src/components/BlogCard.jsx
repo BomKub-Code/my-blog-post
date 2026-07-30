@@ -3,22 +3,23 @@ import { Link } from 'react-router-dom'
 // การ์ดแสดงโพสต์จริงจาก API (ใช้ใน ArticleSection) รูปและหัวข้อคลิกได้เพื่อไปหน้ารายละเอียด
 function BlogCard({ id, image, category, title, description, author, date }) {
   return (
-    <div className="flex flex-col gap-4">
-      <Link to={`/post/${id}`} className="relative h-[212px] sm:h-[360px]">
+    <div className="group flex flex-col gap-4 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out fill-mode-both">
+      <Link to={`/post/${id}`} className="relative h-[212px] sm:h-[360px] overflow-hidden rounded-2xl shadow-sm transition-all duration-500 group-hover:shadow-xl group-hover:-translate-y-1">
         <img
-          className="w-full h-full object-cover rounded-md"
+          className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
           src={image}
           alt={title}
         />
+        <div className="absolute inset-0 bg-black/0 transition-colors duration-500 group-hover:bg-black/10"></div>
       </Link>
-      <div className="flex flex-col">
+      <div className="flex flex-col px-2">
         <div className="flex">
-          <span className="bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-green-600 mb-2">
+          <span className="bg-green-200 dark:bg-green-900/40 rounded-full px-3 py-1 text-sm font-semibold text-green-700 dark:text-green-400 mb-3 transition-colors duration-300">
             {category}
           </span>
         </div>
-        <Link to={`/post/${id}`}>
-          <h2 className="text-start font-bold text-xl mb-2 line-clamp-2 hover:underline">
+        <Link to={`/post/${id}`} className="group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">
+          <h2 className="text-start font-bold text-xl mb-3 line-clamp-2 leading-tight">
             {title}
           </h2>
         </Link>

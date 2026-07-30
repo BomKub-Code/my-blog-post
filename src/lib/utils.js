@@ -21,9 +21,13 @@ export function formatDate(isoDate) {
 
 // class มาตรฐานของ input ในฟอร์ม (สมัคร/เข้าสู่ระบบ) เปลี่ยนสีขอบเป็นแดง
 // เมื่อ hasError = true เพื่อบอก validation error ให้ผู้ใช้เห็นทันที
-export function formInputClass(hasError) {
+export function formInputClass(hasError, hasIcon = false, hasRightElement = false) {
   return cn(
-    'h-11 w-full rounded-lg border bg-(--bg) px-3.5 text-sm text-(--text-h) placeholder:text-(--text) focus:outline-none focus:border-(--text-h)',
-    hasError ? 'border-red-400' : 'border-(--border)'
+    'h-12 w-full rounded-xl border bg-white dark:bg-[var(--bg)] px-4 text-sm text-gray-900 dark:text-[var(--text-h)] shadow-sm transition-all duration-200 placeholder:text-gray-400 dark:placeholder:text-[var(--text)] focus:outline-none focus:ring-4',
+    hasIcon && 'pl-11',
+    hasRightElement && 'pr-11',
+    hasError 
+      ? 'border-red-300 dark:border-red-500 focus:border-red-500 focus:ring-red-500/20 bg-red-50/30 dark:bg-red-900/10' 
+      : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 focus:border-black dark:focus:border-white focus:ring-black/10 dark:focus:ring-white/10'
   )
 }

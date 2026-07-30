@@ -112,7 +112,7 @@ function ViewPostPage() {
         )}
 
         {!isLoading && !error && post && (
-          <div className="mx-auto max-w-3xl">
+          <div className="mx-auto max-w-3xl animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out fill-mode-both">
             <img
               src={post.image}
               alt={post.title}

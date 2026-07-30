@@ -1,61 +1,167 @@
-import { Menu } from 'lucide-react'
+import { Menu, Sun, Moon, LogOut, User, KeyRound, Bell, ChevronDown, ExternalLink } from 'lucide-react'
 import { FaLinkedin } from 'react-icons/fa'
 import { SiGithub, SiGoogle } from 'react-icons/si'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useTheme } from 'next-themes'
+import { useAuth } from '@/lib/AuthContext'
 import heroImage from '../assets/img1.jpg'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
+  DropdownMenuLabel,
 } from '@/components/ui/dropdown-menu'
+
+function ThemeToggle() {
+  const { theme, setTheme } = useTheme()
+  return (
+    <button
+      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+      className="flex size-9 items-center justify-center rounded-full border border-[var(--border)] bg-[var(--bg)] text-[var(--text-h)] shadow-sm hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+      aria-label="Toggle theme"
+    >
+      <Sun className="size-4.5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+      <Moon className="absolute size-4.5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+    </button>
+  )
+}
+
+function UserMenu({ user, logout }) {
+  const navigate = useNavigate()
+
+  return (
+    <div className="flex items-center gap-4">
+      {/* Notification Bell */}
+      <button className="relative flex size-9 items-center justify-center rounded-full border border-[var(--border)] bg-[var(--bg)] text-[var(--text-h)] hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+        <Bell className="size-4.5" />
+        <span className="absolute top-2 right-2.5 size-1.5 rounded-full bg-red-500"></span>
+      </button>
+
+      {/* User Dropdown */}
+      <DropdownMenu>
+        <DropdownMenuTrigger
+          className="flex items-center gap-2 rounded-full border border-transparent hover:bg-black/5 dark:hover:bg-white/10 transition-colors py-1 pl-1 pr-3"
+          aria-label="User menu"
+        >
+          <div className="flex size-8 items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden shrink-0 border border-[var(--border)]">
+            {/* If we have a real user image, we can put img here. For now, we use a placeholder or initials. The mockup shows a hippo image. Let's use it as a placeholder. */}
+            <img 
+              src="https://res.cloudinary.com/dcbpjtd1r/image/upload/v1728449784/my-blog-post/xgfy0xnvyemkklcqodkg.jpg" 
+              alt={user.name} 
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                e.target.style.display = 'none';
+                e.target.nextSibling.style.display = 'flex';
+              }}
+            />
+            <span className="hidden w-full h-full items-center justify-center text-sm font-bold uppercase bg-gray-200 dark:bg-gray-700 text-[var(--text-h)]">
+              {user.name.charAt(0)}
+            </span>
+          </div>
+          <span className="text-sm font-medium text-gray-900 dark:text-white hidden sm:block">
+            {user.name}
+          </span>
+          <ChevronDown className="size-4 text-gray-500 dark:text-gray-400 hidden sm:block" />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-48 p-2 mt-1" align="end">
+          <DropdownMenuItem asChild>
+            <Link to="/settings/profile" className="flex items-center cursor-pointer">
+              <User className="mr-3 size-4" />
+              <span>Profile</span>
+            </Link>
+          </DropdownMenuItem>
+          
+          <DropdownMenuItem asChild>
+            <Link to="/settings/reset-password" className="flex items-center cursor-pointer">
+              <KeyRound className="mr-3 size-4" />
+              <span>Reset password</span>
+            </Link>
+          </DropdownMenuItem>
+
+          <DropdownMenuItem asChild>
+            <Link to="/admin" className="flex items-center cursor-pointer">
+              <ExternalLink className="mr-3 size-4" />
+              <span>Admin panel</span>
+            </Link>
+          </DropdownMenuItem>
+
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            onClick={() => {
+              logout()
+              navigate('/login')
+            }}
+            className="cursor-pointer text-gray-900 dark:text-gray-300 focus:bg-gray-100 dark:focus:bg-white/10"
+          >
+            <LogOut className="mr-3 size-4" />
+            <span>Log out</span>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
+  )
+}
 
 // แถบเมนูบนสุด: โชว์ปุ่ม Log in / Sign up แบบเต็มบนจอกว้าง (sm ขึ้นไป)
 // ส่วนจอเล็กจะซ่อนปุ่มแล้วใช้ dropdown menu (ไอคอน Menu) แทนเพื่อประหยัดพื้นที่
 function NavBar() {
+  const { user, logout } = useAuth()
+
   return (
     <nav className="flex items-center justify-between px-6 py-4">
-      <Link to="/" className="text-lg font-semibold text-(--text-h)">
+      <Link to="/" className="text-lg font-semibold text-[var(--text-h)]">
         hh.
       </Link>
 
-      <div className="hidden items-center gap-3 sm:flex">
-        <Link
-          to="/login"
-          className="rounded-full border border-(--border) px-5 py-2 text-sm font-medium text-(--text-h) hover:bg-black/5"
-        >
-          Log in
-        </Link>
-        <Link
-          to="/signup"
-          className="rounded-full bg-black px-5 py-2 text-sm font-medium text-white hover:bg-black/80"
-        >
-          Sign up
-        </Link>
-      </div>
+      <div className="flex items-center gap-3">
+        <ThemeToggle />
 
-      <DropdownMenu>
-        <DropdownMenuTrigger
-          className="flex size-9 items-center justify-center rounded-full hover:bg-black/5 sm:hidden"
-          aria-label="Open menu"
-        >
-          <Menu className="size-5 text-(--text-h)" />
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-(--anchor-width) min-w-56 p-2">
-          <DropdownMenuItem
-            render={<Link to="/login" />}
-            className="justify-center rounded-full border border-(--border) py-2.5 text-sm font-medium text-(--text-h)"
-          >
-            Log in
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            render={<Link to="/signup" />}
-            className="mt-2 justify-center rounded-full bg-black py-2.5 text-sm font-medium text-white focus:bg-black/80 focus:text-white"
-          >
-            Sign up
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+        {user ? (
+          <UserMenu user={user} logout={logout} />
+        ) : (
+          <>
+            <div className="hidden items-center gap-3 sm:flex">
+              <Link
+                to="/login"
+                className="rounded-full border border-[var(--border)] px-5 py-2 text-sm font-medium text-[var(--text-h)] hover:bg-black/5 dark:hover:bg-white/10"
+              >
+                Log in
+              </Link>
+              <Link
+                to="/signup"
+                className="rounded-full bg-black px-5 py-2 text-sm font-medium text-white hover:bg-black/80 dark:bg-white dark:text-black dark:hover:bg-white/80"
+              >
+                Sign up
+              </Link>
+            </div>
+
+            <DropdownMenu>
+              <DropdownMenuTrigger
+                className="flex size-9 items-center justify-center rounded-full hover:bg-black/5 sm:hidden dark:hover:bg-white/10"
+                aria-label="Open menu"
+              >
+                <Menu className="size-5 text-[var(--text-h)]" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-[var(--anchor-width)] min-w-56 p-2">
+                <DropdownMenuItem
+                  render={<Link to="/login" />}
+                  className="justify-center rounded-full border border-[var(--border)] py-2.5 text-sm font-medium text-[var(--text-h)]"
+                >
+                  Log in
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  render={<Link to="/signup" />}
+                  className="mt-2 justify-center rounded-full bg-black py-2.5 text-sm font-medium text-white focus:bg-black/80 focus:text-white dark:bg-white dark:text-black dark:focus:bg-white/80"
+                >
+                  Sign up
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </>
+        )}
+      </div>
     </nav>
   )
 }
@@ -109,23 +215,29 @@ function Footer() {
       <span>Get in touch</span>
       <div className="flex items-center gap-3">
         <a
-          href="#"
+          href="https://linkedin.com"
+          target="_blank"
+          rel="noopener noreferrer"
           aria-label="LinkedIn"
-          className="flex h-8 w-8 items-center justify-center rounded-full bg-black text-white"
+          className="flex h-8 w-8 items-center justify-center rounded-full bg-black text-white dark:bg-white dark:text-black transition-colors"
         >
           <FaLinkedin size={14} />
         </a>
         <a
-          href="#"
+          href="https://github.com"
+          target="_blank"
+          rel="noopener noreferrer"
           aria-label="GitHub"
-          className="flex h-8 w-8 items-center justify-center rounded-full bg-black text-white"
+          className="flex h-8 w-8 items-center justify-center rounded-full bg-black text-white dark:bg-white dark:text-black transition-colors"
         >
           <SiGithub size={14} />
         </a>
         <a
-          href="#"
+          href="https://google.com"
+          target="_blank"
+          rel="noopener noreferrer"
           aria-label="Google"
-          className="flex h-8 w-8 items-center justify-center rounded-full bg-black text-white"
+          className="flex h-8 w-8 items-center justify-center rounded-full bg-black text-white dark:bg-white dark:text-black transition-colors"
         >
           <SiGoogle size={14} />
         </a>
