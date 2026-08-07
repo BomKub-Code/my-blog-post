@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from 'react'
+import Link from 'next/link'
 import { Search } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import {
@@ -160,7 +161,7 @@ function ArticleSection() {
           searchResults.map((result) => (
             <Link
               key={result.id}
-              to={`/post/${result.id}`}
+              href={`/post/${result.id}`}
               onClick={() => setIsSearchOpen(false)}
               className="block px-4 py-3 text-sm text-(--text-h) hover:bg-(--code-bg)"
             >

@@ -24,8 +24,8 @@ export default function ArticleManagementPage() {
     // โหลดข้อมูลแบบ mock (ดึงจาก API ที่มีอยู่แล้วก่อน สำหรับเดโม่)
     api.get('/posts')
       .then(res => {
-        // Mock status ให้อยู่ในโหมด Published ทั้งหมดก่อน
-        const mockData = res.data.posts.map(p => ({ ...p, status: 'Published' }))
+        const postsList = Array.isArray(res?.data?.posts) ? res.data.posts : Array.isArray(res?.data) ? res.data : []
+        const mockData = postsList.map(p => ({ ...p, status: 'Published' }))
         setArticles(mockData)
       })
       .catch(console.error)
