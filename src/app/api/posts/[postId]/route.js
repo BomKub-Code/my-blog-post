@@ -3,7 +3,13 @@ import { NextResponse } from 'next/server'
 
 export async function GET(request, { params }) {
   try {
-    const { postId } = params
+    // Next.js 15: params is a Promise that must be awaited
+    const resolvedParams = await params
+    const postId = resolvedParams?.postId
+
+    if (!postId) {
+      return NextResponse.json({ error: 'Post ID is required' }, { status: 400 })
+    }
 
     const { data: post, error } = await supabase
       .from('posts')

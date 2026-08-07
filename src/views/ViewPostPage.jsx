@@ -33,8 +33,7 @@ function ViewPostPage() {
 
   // ดึงข้อมูลโพสต์ตาม postId จาก URL ทุกครั้งที่ postId เปลี่ยน
   useEffect(() => {
-    // flag กันปัญหา race condition: ถ้า postId เปลี่ยนเร็วๆ (เช่นกดลิงก์โพสต์อื่นก่อน
-    // request เก่าจะเสร็จ) request เก่าที่ยัง resolve อยู่จะถูกเพิกเฉยไม่ setState ทับของใหม่
+    if (!postId) return
     let ignore = false
 
     setIsLoading(true)
