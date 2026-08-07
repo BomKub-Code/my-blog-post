@@ -281,7 +281,7 @@ function SignUpPage() {
 
               <p className="mt-8 text-center text-sm font-medium text-gray-600 dark:text-[var(--text)] transition-colors">
                 Already have an account?{' '}
-                <Link to="/login" className="font-bold text-black dark:text-white hover:underline underline-offset-4">
+                <Link href="/login" className="font-bold text-black dark:text-white hover:underline underline-offset-4">
                   Log in
                 </Link>
               </p>

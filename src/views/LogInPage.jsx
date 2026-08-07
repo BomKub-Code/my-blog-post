@@ -197,7 +197,7 @@ function LogInPage() {
 
               <p className="mt-10 text-center text-sm font-medium text-gray-600 dark:text-[var(--text)] transition-colors">
                 Don&apos;t have an account?{' '}
-                <Link to="/signup" className="font-bold text-black dark:text-white hover:underline underline-offset-4">
+                <Link href="/signup" className="font-bold text-black dark:text-white hover:underline underline-offset-4">
                   Sign up for free
                 </Link>
               </p>

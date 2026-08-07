@@ -108,7 +108,7 @@ function ViewPostPage() {
         {!isLoading && error && (
           <div className="text-center">
             <p className="text-sm text-red-500">{error}</p>
-            <Link to="/" className="mt-4 inline-block underline">
+            <Link href="/" className="mt-4 inline-block underline">
               Back to home
             </Link>
           </div>
