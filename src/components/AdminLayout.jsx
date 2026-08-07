@@ -1,16 +1,20 @@
+"use client"
+
 import { useState } from 'react'
-import { NavLink, Outlet, useNavigate } from 'react-router-dom'
+import Link from 'next/link'
+import { usePathname, useRouter } from 'next/navigation'
 import { FileText, Folder, User, Bell, KeyRound, ExternalLink, LogOut, Users, Menu, X } from 'lucide-react'
 import { useAuth } from '@/lib/AuthContext'
 
-export default function AdminLayout() {
+export default function AdminLayout({ children }) {
   const { logout } = useAuth()
-  const navigate = useNavigate()
+  const navigate = useRouter()
+  const pathname = usePathname()
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
   const handleLogout = () => {
     logout()
-    navigate('/login')
+    navigate.push('/login')
   }
 
   const navItems = [
@@ -53,29 +57,30 @@ export default function AdminLayout() {
         </div>
         
         <nav className="flex-1 mt-6 px-4 space-y-1 overflow-y-auto">
-          {navItems.map((item) => (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              onClick={() => setIsSidebarOpen(false)}
-              className={({ isActive }) =>
-                `flex items-center gap-3 px-4 py-3 rounded-md transition-colors ${
+          {navItems.map((item) => {
+            const isActive = pathname === item.path
+            return (
+              <Link
+                key={item.path}
+                href={item.path}
+                onClick={() => setIsSidebarOpen(false)}
+                className={`flex items-center gap-3 px-4 py-3 rounded-md transition-colors ${
                   isActive
                     ? 'bg-[#e2e2e2] dark:bg-white/10 text-gray-900 dark:text-white font-semibold'
                     : 'text-gray-500 hover:bg-black/5 dark:hover:bg-white/5 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
-                }`
-              }
-            >
-              {item.icon}
-              {item.label}
-            </NavLink>
-          ))}
+                }`}
+              >
+                {item.icon}
+                {item.label}
+              </Link>
+            )
+          })}
         </nav>
 
         <div className="border-t border-gray-300 dark:border-gray-700 p-4 space-y-1">
           <button 
             type="button" 
-            onClick={() => navigate('/')} 
+            onClick={() => navigate.push('/')} 
             className="flex w-full items-center gap-3 px-4 py-3 rounded-md text-gray-500 hover:bg-black/5 dark:hover:bg-white/5 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
           >
             <ExternalLink className="size-4" />
@@ -106,7 +111,7 @@ export default function AdminLayout() {
         </header>
 
         <main className="flex-1 p-4 sm:p-8 lg:p-12 overflow-x-hidden">
-          <Outlet />
+          {children}
         </main>
       </div>
     </div>

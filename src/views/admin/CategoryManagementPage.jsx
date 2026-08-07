@@ -54,7 +54,7 @@ export default function CategoryManagementPage() {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Category management</h1>
         <Link 
-          to="/admin/categories/create" 
+          href="/admin/categories/create" 
           className="flex items-center gap-2 bg-[#2c2c2c] hover:bg-black text-white px-5 py-2.5 rounded-full text-sm font-semibold transition-colors dark:bg-white dark:text-black dark:hover:bg-gray-200 w-full sm:w-auto justify-center"
         >
           <Plus className="size-4" />

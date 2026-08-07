@@ -1,8 +1,13 @@
-import { NavLink, Outlet } from 'react-router-dom'
+"use client"
+
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { User, KeyRound } from 'lucide-react'
 import { NavBar } from '@/components/Layout'
 
-export default function UserSettingsLayout() {
+export default function UserSettingsLayout({ children }) {
+  const pathname = usePathname()
+
   const navItems = [
     { label: 'Profile', icon: <User className="size-4" />, path: '/settings/profile' },
     { label: 'Reset password', icon: <KeyRound className="size-4" />, path: '/settings/reset-password' },
@@ -16,28 +21,29 @@ export default function UserSettingsLayout() {
         {/* Left Sidebar Menu */}
         <aside className="hidden w-64 flex-col sm:flex animate-in fade-in slide-in-from-left-4 duration-500">
           <nav className="flex flex-col gap-1">
-            {navItems.map((item) => (
-              <NavLink
-                key={item.path}
-                to={item.path}
-                className={({ isActive }) =>
-                  `flex items-center gap-3 px-4 py-2.5 rounded-md text-sm transition-colors ${
+            {navItems.map((item) => {
+              const isActive = pathname === item.path
+              return (
+                <Link
+                  key={item.path}
+                  href={item.path}
+                  className={`flex items-center gap-3 px-4 py-2.5 rounded-md text-sm transition-colors ${
                     isActive
                       ? 'text-gray-900 dark:text-white font-semibold'
                       : 'text-gray-500 hover:bg-black/5 dark:hover:bg-white/5 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
-                  }`
-                }
-              >
-                {item.icon}
-                {item.label}
-              </NavLink>
-            ))}
+                  }`}
+                >
+                  {item.icon}
+                  {item.label}
+                </Link>
+              )
+            })}
           </nav>
         </aside>
 
         {/* Main Content Area */}
         <main className="flex-1 max-w-2xl">
-          <Outlet />
+          {children}
         </main>
       </div>
     </div>
