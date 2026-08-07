@@ -23,8 +23,9 @@ import { formatDate } from '@/lib/utils'
 // Assignment scope: no real auth system yet — every visitor is treated as logged out.
 const isLoggedIn = false
 
-function ViewPostPage() {
-  const { postId } = useParams()
+function ViewPostPage({ postId: propPostId }) {
+  const params = useParams()
+  const postId = propPostId || params?.postId
   const [post, setPost] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)

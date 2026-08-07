@@ -1,7 +1,6 @@
-"use client"
-
 import ViewPostPage from '@/views/ViewPostPage'
 
-export default function Page() {
-  return <ViewPostPage />
+export default async function Page({ params }) {
+  const resolvedParams = await params
+  return <ViewPostPage postId={resolvedParams?.postId} />
 }
