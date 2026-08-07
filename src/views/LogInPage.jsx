@@ -1,5 +1,8 @@
+"use client"
+
 import { useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { Mail, Lock, Eye, EyeOff, Loader2 } from 'lucide-react'
 import { SiGoogle, SiGithub } from 'react-icons/si'
 import { NavBar } from '@/components/Layout'
@@ -16,7 +19,7 @@ function validate(values) {
 }
 
 function LogInPage() {
-  const navigate = useNavigate()
+  const router = useRouter()
   const { user, login } = useAuth()
   const [values, setValues] = useState({ email: '', password: '' })
   const [errors, setErrors] = useState({})
@@ -26,9 +29,9 @@ function LogInPage() {
 
   useEffect(() => {
     if (user) {
-      navigate('/')
+      router.push('/')
     }
-  }, [user, navigate])
+  }, [user, router])
 
   function handleChange(field) {
     return (event) => {
@@ -59,8 +62,8 @@ function LogInPage() {
     }
     
     toast.success('Welcome back!')
-    // navigate('/') // Not strictly needed if useEffect handles redirect, but good for UX
-    navigate('/')
+    // router.push('/') // Not strictly needed if useEffect handles redirect, but good for UX
+    router.push('/')
   }
 
   return (

@@ -1,11 +1,13 @@
+"use client"
+
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useRouter } from 'next/navigation'
 import { Loader2 } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { toast } from 'sonner'
 
 export default function CreateCategoryPage() {
-  const navigate = useNavigate()
+  const router = useRouter()
   
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [name, setName] = useState('')
@@ -37,7 +39,7 @@ export default function CreateCategoryPage() {
           closeButton: '!bg-white/20 !text-white !border-white/30 hover:!bg-white/30',
         },
       })
-      navigate('/admin/categories')
+      router.push('/admin/categories')
     }, 800)
   }
 

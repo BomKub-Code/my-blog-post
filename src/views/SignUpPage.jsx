@@ -1,5 +1,8 @@
+"use client"
+
 import { useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { CheckCircle2, Mail, Lock, User, AtSign, Eye, EyeOff, Loader2 } from 'lucide-react'
 import { SiGoogle, SiGithub } from 'react-icons/si'
 import { NavBar } from '@/components/Layout'
@@ -41,7 +44,7 @@ function calculateStrength(password) {
 }
 
 function SignUpPage() {
-  const navigate = useNavigate()
+  const router = useRouter()
   const { user, register } = useAuth()
   const [values, setValues] = useState({ name: '', username: '', email: '', password: '' })
   const [errors, setErrors] = useState({})
@@ -53,9 +56,9 @@ function SignUpPage() {
 
   useEffect(() => {
     if (user) {
-      navigate('/')
+      router.push('/')
     }
-  }, [user, navigate])
+  }, [user, router])
 
   function handleChange(field) {
     return (event) => {
@@ -110,7 +113,7 @@ function SignUpPage() {
             </p>
             <button
               type="button"
-              onClick={() => navigate('/')}
+              onClick={() => router.push('/')}
               className="w-full h-12 rounded-xl bg-black px-6 text-sm font-semibold text-white shadow-md hover:bg-gray-900 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-gray-900/20 transition-all duration-200"
             >
               Continue to Home

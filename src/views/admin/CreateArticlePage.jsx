@@ -1,5 +1,7 @@
+"use client"
+
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useRouter } from 'next/navigation'
 import { Image as ImageIcon, Loader2, Trash2, X } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import {
@@ -14,7 +16,7 @@ import { toast } from 'sonner'
 
 export default function CreateArticlePage() {
   const { user } = useAuth()
-  const navigate = useNavigate()
+  const router = useRouter()
   
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
@@ -67,7 +69,7 @@ export default function CreateArticlePage() {
           closeButton: '!bg-white/20 !text-white !border-white/30 hover:!bg-white/30',
         },
       })
-      navigate('/admin/articles')
+      router.push('/admin/articles')
     }, 800)
   }
 
@@ -88,7 +90,7 @@ export default function CreateArticlePage() {
         closeButton: '!bg-white/20 !text-white !border-white/30 hover:!bg-white/30',
       },
     })
-    navigate('/admin/articles')
+    router.push('/admin/articles')
   }
 
   return (

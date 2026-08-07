@@ -1,3 +1,5 @@
+"use client"
+
 import { useState } from 'react'
 import { useAuth } from '@/lib/AuthContext'
 import { Input } from '@/components/ui/input'

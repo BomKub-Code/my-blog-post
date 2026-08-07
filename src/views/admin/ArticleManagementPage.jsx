@@ -1,5 +1,7 @@
+"use client"
+
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 import { Plus, Search, Edit2, Trash2 } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import {

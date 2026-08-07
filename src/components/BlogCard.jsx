@@ -1,10 +1,10 @@
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 
 // การ์ดแสดงโพสต์จริงจาก API (ใช้ใน ArticleSection) รูปและหัวข้อคลิกได้เพื่อไปหน้ารายละเอียด
 function BlogCard({ id, image, category, title, description, author, date }) {
   return (
     <div className="group flex flex-col gap-4 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out fill-mode-both">
-      <Link to={`/post/${id}`} className="relative h-[212px] sm:h-[360px] overflow-hidden rounded-2xl shadow-sm transition-all duration-500 group-hover:shadow-xl group-hover:-translate-y-1">
+      <Link href={`/post/${id}`} className="relative h-[212px] sm:h-[360px] overflow-hidden rounded-2xl shadow-sm transition-all duration-500 group-hover:shadow-xl group-hover:-translate-y-1">
         <img
           className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
           src={image}
@@ -18,7 +18,7 @@ function BlogCard({ id, image, category, title, description, author, date }) {
             {category}
           </span>
         </div>
-        <Link to={`/post/${id}`} className="group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">
+        <Link href={`/post/${id}`} className="group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">
           <h2 className="text-start font-bold text-xl mb-3 line-clamp-2 leading-tight">
             {title}
           </h2>

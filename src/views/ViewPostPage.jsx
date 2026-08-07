@@ -1,5 +1,8 @@
+"use client"
+
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import Link from 'next/link'
+import { useParams } from 'next/navigation'
 import ReactMarkdown from 'react-markdown'
 import { toast } from 'sonner'
 import { Copy, SmilePlus, X } from 'lucide-react'

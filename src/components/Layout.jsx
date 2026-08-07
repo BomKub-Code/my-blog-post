@@ -1,7 +1,10 @@
+"use client"
+
 import { Menu, Sun, Moon, LogOut, User, KeyRound, Bell, ChevronDown, ExternalLink } from 'lucide-react'
 import { FaLinkedin } from 'react-icons/fa'
 import { SiGithub, SiGoogle } from 'react-icons/si'
-import { Link, useNavigate } from 'react-router-dom'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import { useAuth } from '@/lib/AuthContext'
 import heroImage from '../assets/img1.jpg'
@@ -29,7 +32,7 @@ function ThemeToggle() {
 }
 
 function UserMenu({ user, logout }) {
-  const navigate = useNavigate()
+  const router = useRouter()
 
   return (
     <div className="flex items-center gap-4">
@@ -67,21 +70,21 @@ function UserMenu({ user, logout }) {
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-48 p-2 mt-1" align="end">
           <DropdownMenuItem asChild>
-            <Link to="/settings/profile" className="flex items-center cursor-pointer">
+            <Link href="/settings/profile" className="flex items-center cursor-pointer">
               <User className="mr-3 size-4" />
               <span>Profile</span>
             </Link>
           </DropdownMenuItem>
           
           <DropdownMenuItem asChild>
-            <Link to="/settings/reset-password" className="flex items-center cursor-pointer">
+            <Link href="/settings/reset-password" className="flex items-center cursor-pointer">
               <KeyRound className="mr-3 size-4" />
               <span>Reset password</span>
             </Link>
           </DropdownMenuItem>
 
           <DropdownMenuItem asChild>
-            <Link to="/admin" className="flex items-center cursor-pointer">
+            <Link href="/admin" className="flex items-center cursor-pointer">
               <ExternalLink className="mr-3 size-4" />
               <span>Admin panel</span>
             </Link>
@@ -91,7 +94,7 @@ function UserMenu({ user, logout }) {
           <DropdownMenuItem
             onClick={() => {
               logout()
-              navigate('/login')
+              router.push('/login')
             }}
             className="cursor-pointer text-gray-900 dark:text-gray-300 focus:bg-gray-100 dark:focus:bg-white/10"
           >
@@ -111,7 +114,7 @@ function NavBar() {
 
   return (
     <nav className="flex items-center justify-between px-6 py-4">
-      <Link to="/" className="text-lg font-semibold text-[var(--text-h)]">
+      <Link href="/" className="text-lg font-semibold text-[var(--text-h)]">
         hh.
       </Link>
 
@@ -124,13 +127,13 @@ function NavBar() {
           <>
             <div className="hidden items-center gap-3 sm:flex">
               <Link
-                to="/login"
+                href="/login"
                 className="rounded-full border border-[var(--border)] px-5 py-2 text-sm font-medium text-[var(--text-h)] hover:bg-black/5 dark:hover:bg-white/10"
               >
                 Log in
               </Link>
               <Link
-                to="/signup"
+                href="/signup"
                 className="rounded-full bg-black px-5 py-2 text-sm font-medium text-white hover:bg-black/80 dark:bg-white dark:text-black dark:hover:bg-white/80"
               >
                 Sign up
@@ -146,16 +149,16 @@ function NavBar() {
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-[var(--anchor-width)] min-w-56 p-2">
                 <DropdownMenuItem
-                  render={<Link to="/login" />}
+                  asChild
                   className="justify-center rounded-full border border-[var(--border)] py-2.5 text-sm font-medium text-[var(--text-h)]"
                 >
-                  Log in
+                  <Link href="/login">Log in</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  render={<Link to="/signup" />}
+                  asChild
                   className="mt-2 justify-center rounded-full bg-black py-2.5 text-sm font-medium text-white focus:bg-black/80 focus:text-white dark:bg-white dark:text-black dark:focus:bg-white/80"
                 >
-                  Sign up
+                  <Link href="/signup">Sign up</Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -184,7 +187,7 @@ function HeroSection() {
 
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-[1.3fr_1fr]">
         <img
-          src={heroImage}
+          src={heroImage.src || heroImage}
           alt="Thompson P. with a cat"
           className="aspect-4/5 w-full rounded-2xl object-cover"
         />
@@ -242,7 +245,7 @@ function Footer() {
           <SiGoogle size={14} />
         </a>
       </div>
-      <Link to="/" className="underline underline-offset-2">
+      <Link href="/" className="underline underline-offset-2">
         Home page
       </Link>
     </footer>
