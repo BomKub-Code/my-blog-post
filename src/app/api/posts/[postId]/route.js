@@ -3,18 +3,18 @@ import { NextResponse } from 'next/server'
 
 export async function GET(request, { params }) {
   try {
-    // Next.js 15: params is a Promise that must be awaited
     const resolvedParams = await params
     const postId = resolvedParams?.postId
+    const numericId = parseInt(postId, 10)
 
-    if (!postId) {
-      return NextResponse.json({ error: 'Post ID is required' }, { status: 400 })
+    if (isNaN(numericId)) {
+      return NextResponse.json({ error: 'Invalid Post ID' }, { status: 400 })
     }
 
     const { data: post, error } = await supabase
       .from('posts')
       .select('*')
-      .eq('id', postId)
+      .eq('id', numericId)
       .single()
 
     if (error || !post) {

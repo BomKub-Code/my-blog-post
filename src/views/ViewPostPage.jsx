@@ -44,7 +44,11 @@ function ViewPostPage({ postId: propPostId }) {
     api
       .get(`/posts/${postId}`)
       .then((response) => {
-        if (!ignore) setPost(response.data)
+        if (!ignore && response.data && typeof response.data === 'object' && response.data.id) {
+          setPost(response.data)
+        } else if (!ignore) {
+          setError('Post not found.')
+        }
       })
       .catch(() => {
         if (!ignore) setError('Post not found.')
