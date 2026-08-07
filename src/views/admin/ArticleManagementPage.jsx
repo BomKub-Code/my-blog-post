@@ -34,7 +34,8 @@ export default function ArticleManagementPage() {
 
   // Filter logic
   const filteredArticles = articles.filter(article => {
-    const matchSearch = article.title.toLowerCase().includes(searchTerm.toLowerCase())
+    if (!article) return false
+    const matchSearch = article.title ? article.title.toLowerCase().includes(searchTerm.toLowerCase()) : false
     const matchCategory = categoryFilter === 'All' || article.category === categoryFilter
     const matchStatus = statusFilter === 'All' || article.status === statusFilter
     return matchSearch && matchCategory && matchStatus

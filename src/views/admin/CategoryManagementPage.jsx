@@ -18,7 +18,7 @@ export default function CategoryManagementPage() {
   const [categoryToDelete, setCategoryToDelete] = useState(null)
 
   const filteredCategories = categories.filter(cat => 
-    cat.name.toLowerCase().includes(searchTerm.toLowerCase())
+    cat && cat.name ? cat.name.toLowerCase().includes(searchTerm.toLowerCase()) : false
   )
 
   const openDeleteModal = (category) => {

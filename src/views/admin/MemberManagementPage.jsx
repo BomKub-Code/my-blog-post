@@ -33,8 +33,11 @@ export default function MemberManagementPage() {
 
   // Filter logic
   const filteredMembers = members.filter(member => {
+    if (!member) return false
     const term = searchTerm.toLowerCase()
-    return member.name.toLowerCase().includes(term) || member.email.toLowerCase().includes(term)
+    const nameMatch = member.name ? member.name.toLowerCase().includes(term) : false
+    const emailMatch = member.email ? member.email.toLowerCase().includes(term) : false
+    return nameMatch || emailMatch
   })
 
   return (
